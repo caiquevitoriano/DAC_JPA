@@ -9,6 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -17,9 +21,13 @@ import javax.persistence.Entity;
 @Entity
 public class Livro implements Serializable{
     
+    @Id
     private String ISBN;
     private String nome;
+    @Temporal(TemporalType.DATE)
     private Date lancamento;
+    
+    @ManyToMany(mappedBy = "livros")
     private List<Autor> autores;
 
     public Livro() {
