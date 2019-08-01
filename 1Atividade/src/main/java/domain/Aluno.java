@@ -5,7 +5,6 @@
  */
 package domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
@@ -16,7 +15,7 @@ import javax.persistence.TemporalType;
  * @author caique
  */
 @Entity
-public class Aluno extends Pessoa implements Serializable{
+public class Aluno extends Pessoa{
     private String matricula;
     @Temporal(TemporalType.DATE)
     private Date dataIngresso;
@@ -32,6 +31,30 @@ public class Aluno extends Pessoa implements Serializable{
 
 	public String getmatricula() {
         return matricula;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public Date getDataIngresso() {
+        return dataIngresso;
+    }
+
+    public void setDataIngresso(Date dataIngresso) {
+        this.dataIngresso = dataIngresso;
+    }
+
+    public String getTurma() {
+        return turma;
+    }
+
+    public void setTurma(String turma) {
+        this.turma = turma;
     }
 
     
