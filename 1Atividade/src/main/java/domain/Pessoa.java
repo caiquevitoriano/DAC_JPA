@@ -17,16 +17,13 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Pessoa implements Serializable {
 
-      
-
-    
     @Id
     private String cpf;
     private String nome;
     private int idade;
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
-    
+
     @Embedded
     private Endereco endereco;
 
@@ -80,6 +77,5 @@ public class Pessoa implements Serializable {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
 
 }
