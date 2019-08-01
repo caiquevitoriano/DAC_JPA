@@ -17,14 +17,16 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Pessoa implements Serializable {
 
+      
+
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String nome;
     private String cpf;
+    private String nome;
     private int idade;
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
+    
     @Embedded
     private Endereco endereco;
 
@@ -79,12 +81,5 @@ public class Pessoa implements Serializable {
         this.endereco = endereco;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
 }

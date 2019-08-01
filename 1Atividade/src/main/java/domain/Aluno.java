@@ -21,6 +21,9 @@ public class Aluno extends Pessoa{
     private Date dataIngresso;
     private String turma;
 
+    public Aluno() {
+    }
+
  public Aluno(String nome, String cpf, int idade, Date dataNascimento, Endereco endereco, String matricula,
 			Date dataIngreso, String turma) {
 		super(nome, cpf, idade, dataNascimento, endereco);

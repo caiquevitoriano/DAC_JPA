@@ -21,9 +21,7 @@ public class Professor extends Pessoa {
 
     public Professor() {
     }
-
-   
-
+    
     public Professor(Double salario, List<Telefone> telefones, String nome, String cpf, int idade, Date dataNascimento, Endereco endereco) {
         super(nome, cpf, idade, dataNascimento, endereco);
         this.salario = salario;

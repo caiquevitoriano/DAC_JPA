@@ -6,14 +6,21 @@
 package domain;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
 
 /**
  *
  * @author caique
  */
+@Entity
 public class Telefone implements Serializable{
-       
+    
+    @Id
     private String numero;
+    
+    @Enumerated 
     private TelefoneType tipo;
 
     public Telefone() {

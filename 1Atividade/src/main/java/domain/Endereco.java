@@ -6,19 +6,25 @@
 package domain;
 
 import java.io.Serializable;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 
 /**
  *
  * @author caique
  */
-class Endereco implements Serializable{
+@Embeddable
+public class Endereco implements Serializable{
     
+   
     private String rua;
     private String bairro;
     private String cidade;
     private String cep;
 
-    public Endereco() { }
+    public Endereco() { 
+    }
 
     public Endereco(String rua, String bairro, String cidade, String cep) {
         this.rua = rua;

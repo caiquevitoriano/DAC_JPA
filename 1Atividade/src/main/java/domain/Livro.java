@@ -8,17 +8,22 @@ package domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Entity;
 
 /**
  *
  * @author caique
  */
+@Entity
 public class Livro implements Serializable{
     
     private String ISBN;
     private String nome;
     private Date lancamento;
     private List<Autor> autores;
+
+    public Livro() {
+    }
 
     public Livro(String ISBN, String nome, Date lancamento, List<Autor> autores) {
         this.ISBN = ISBN;
