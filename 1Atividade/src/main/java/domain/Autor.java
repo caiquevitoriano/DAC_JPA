@@ -5,6 +5,8 @@
  */
 package domain;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -20,20 +22,29 @@ import javax.persistence.ManyToMany;
 public class Autor extends Pessoa {
 
     private String instituicaoVinculada;
-    
+
     @ManyToMany
-    @JoinTable(name = "autorLivro",
-            joinColumns = @JoinColumn(name = "id_autor"),
-            inverseJoinColumns = @JoinColumn(name = "di_livro"))
+    @JoinTable(name = "AUTOR_LIVRO", joinColumns
+            = {
+                @JoinColumn(name = "autor_id")}, inverseJoinColumns
+            = {
+                @JoinColumn(name = "livro_id")})
     private List<Livro> livros;
 
     public Autor() {
+        this.livros = new ArrayList<>();
     }
 
-    public Autor(String instituicaoVinculada, List<Livro> livros, String nome, String cpf, int idade, Date dataNascimento, Endereco endereco) {
-        super(nome, cpf, idade, dataNascimento, endereco);
+    public Autor(String instituicaoVinculada, List<Livro> livros, String cpf, String nome, int idade, LocalDate dataNascimento, Endereco endereco) {
+        super(cpf, nome, idade, dataNascimento, endereco);
         this.instituicaoVinculada = instituicaoVinculada;
         this.livros = livros;
+    }
+
+    public Autor(String instituicaoVinculada, String cpf, String nome, int idade, LocalDate dataNascimento, Endereco endereco) {
+        super(cpf, nome, idade, dataNascimento, endereco);
+        this.instituicaoVinculada = instituicaoVinculada;
+        this.livros = new ArrayList<>();
     }
 
     public String getInstituicaoVinculada() {

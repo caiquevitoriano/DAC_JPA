@@ -5,9 +5,13 @@
  */
 package domain;
 
+import convert.ConvertLocalDate;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -19,23 +23,33 @@ import javax.persistence.TemporalType;
  * @author caique
  */
 @Entity
-public class Livro implements Serializable{
-    
+public class Livro implements Serializable {
+
     @Id
     private String ISBN;
     private String nome;
-    @Temporal(TemporalType.DATE)
-    private Date lancamento;
+//    @Temporal(TemporalType.DATE)
+    @Convert(converter = ConvertLocalDate.class)
+    private LocalDate lancamento;
     
     @ManyToMany(mappedBy = "livros")
     private List<Autor> autores;
 
     public Livro() {
+        this.autores = new ArrayList<>();
     }
 
-    public Livro(String ISBN, String nome, Date lancamento, List<Autor> autores) {
-        this.ISBN = ISBN;
+    public Livro(String nome, String ISBN, LocalDate lancamento) {
         this.nome = nome;
+        this.ISBN = ISBN;
+        this.lancamento = lancamento;
+        this.autores = new ArrayList<>();
+    }
+
+    public Livro(String nome, String ISBN, LocalDate lancamento, List<Autor> autores) {
+        super();
+        this.nome = nome;
+        this.ISBN = ISBN;
         this.lancamento = lancamento;
         this.autores = autores;
     }
@@ -56,11 +70,11 @@ public class Livro implements Serializable{
         this.nome = nome;
     }
 
-    public Date getLancamento() {
+    public LocalDate getLancamento() {
         return lancamento;
     }
 
-    public void setLancamento(Date lancamento) {
+    public void setLancamento(LocalDate lancamento) {
         this.lancamento = lancamento;
     }
 
@@ -70,9 +84,6 @@ public class Livro implements Serializable{
 
     public void setAutores(List<Autor> autores) {
         this.autores = autores;
-    }    
-    
-    
+    }
 
-    
 }

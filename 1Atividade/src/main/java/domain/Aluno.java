@@ -5,7 +5,10 @@
  */
 package domain;
 
+import convert.ConvertLocalDate;
+import java.time.LocalDate;
 import java.util.Date;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,15 +21,15 @@ import javax.persistence.TemporalType;
 public class Aluno extends Pessoa {
 
     private String matricula;
-    @Temporal(TemporalType.DATE)
-    private Date dataIngresso;
+    @Convert(converter = ConvertLocalDate.class)
+    private LocalDate dataIngresso;
     private String turma;
 
     public Aluno() {
     }
 
-    public Aluno(String nome, String cpf, int idade, Date dataNascimento, Endereco endereco, String matricula,
-            Date dataIngreso, String turma) {
+    public Aluno(String nome, String cpf, int idade, LocalDate dataNascimento, Endereco endereco, String matricula,
+            LocalDate dataIngreso, String turma) {
         super(nome, cpf, idade, dataNascimento, endereco);
         this.matricula = matricula;
         this.dataIngresso = dataIngreso;
@@ -45,11 +48,11 @@ public class Aluno extends Pessoa {
         this.matricula = matricula;
     }
 
-    public Date getDataIngresso() {
+    public LocalDate getDataIngresso() {
         return dataIngresso;
     }
 
-    public void setDataIngresso(Date dataIngresso) {
+    public void setDataIngresso(LocalDate dataIngresso) {
         this.dataIngresso = dataIngresso;
     }
 
@@ -60,5 +63,4 @@ public class Aluno extends Pessoa {
     public void setTurma(String turma) {
         this.turma = turma;
     }
-
 }

@@ -5,6 +5,7 @@
  */
 package domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -15,17 +16,15 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Professor extends Pessoa {
-    
+
     private Double salario;
     private List<Telefone> telefones;
 
     public Professor() {
     }
-    
-    public Professor(Double salario, List<Telefone> telefones, String nome, String cpf, int idade, Date dataNascimento, Endereco endereco) {
+
+    public Professor(String nome, String cpf, int idade, LocalDate dataNascimento, Endereco endereco) {
         super(nome, cpf, idade, dataNascimento, endereco);
-        this.salario = salario;
-        this.telefones = telefones;
     }
 
     public Double getSalario() {
@@ -43,9 +42,5 @@ public class Professor extends Pessoa {
     public void setTelefones(List<Telefone> telefones) {
         this.telefones = telefones;
     }
-    
-    
-    
-        
-    
+
 }

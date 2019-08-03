@@ -9,6 +9,7 @@
         <class>domain.Pessoa</class>
         <class>domain.Professor</class>
         <class>domain.Telefone</class>
+        <class>convert.ConvertLocalDate</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/atividade1"/>
       <property name="javax.persistence.jdbc.user" value="caique"/>

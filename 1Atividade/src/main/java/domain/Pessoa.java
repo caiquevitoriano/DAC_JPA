@@ -5,9 +5,11 @@
  */
 package domain;
 
+import convert.ConvertLocalDate;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+
 
 /**
  *
@@ -21,8 +23,9 @@ public class Pessoa implements Serializable {
     private String cpf;
     private String nome;
     private int idade;
-    @Temporal(TemporalType.DATE)
-    private Date dataNascimento;
+    
+    @Convert(converter=ConvertLocalDate.class)   
+    private LocalDate dataNascimento;
 
     @Embedded
     private Endereco endereco;
@@ -30,20 +33,14 @@ public class Pessoa implements Serializable {
     public Pessoa() {
     }
 
-    public Pessoa(String nome, String cpf, int idade, Date dataNascimento, Endereco endereco) {
-        this.nome = nome;
+    
+    
+    public Pessoa(String cpf, String nome, int idade, LocalDate dataNascimento, Endereco endereco) {
         this.cpf = cpf;
+        this.nome = nome;
         this.idade = idade;
         this.dataNascimento = dataNascimento;
         this.endereco = endereco;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getCpf() {
@@ -54,6 +51,14 @@ public class Pessoa implements Serializable {
         this.cpf = cpf;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public int getIdade() {
         return idade;
     }
@@ -62,11 +67,11 @@ public class Pessoa implements Serializable {
         this.idade = idade;
     }
 
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -77,5 +82,8 @@ public class Pessoa implements Serializable {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
+    
+    
+
 
 }
