@@ -21,10 +21,17 @@ public class Professor extends Pessoa {
     private List<Telefone> telefones;
 
     public Professor() {
+    }   
+    
+
+    public Professor(Double salario, List<Telefone> telefones) {
+        this.salario = salario;
+        this.telefones = telefones;
     }
 
-    public Professor(String nome, String cpf, int idade, LocalDate dataNascimento, Endereco endereco) {
-        super(nome, cpf, idade, dataNascimento, endereco);
+    public Professor(String cpf, String nome, int idade, LocalDate dataNascimento, Endereco endereco) {
+        super(cpf, nome, idade, dataNascimento, endereco);
+      
     }
 
     public Double getSalario() {

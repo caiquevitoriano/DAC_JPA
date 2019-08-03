@@ -9,6 +9,9 @@ import domain.Aluno;
 import domain.Autor;
 import domain.Endereco;
 import domain.Livro;
+import domain.Professor;
+import domain.Telefone;
+import domain.TelefoneType;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
@@ -90,18 +93,33 @@ public class povoarBanco {
                 
         Autor autor3 = new Autor("IFPB", livrosIsimov, "555.555.555-55", "AUTOR DESCONHECIDO", 80, LocalDate.of(1500, 11, 25), end3);
         
+        Telefone tele1 = new Telefone("9999-9988", TelefoneType.RESIDENCIAL);
+        List<Telefone> telefones1 = new ArrayList<>();
+        telefones1.add(tele1);
+        Professor prof1 = new Professor("666.666.666-66","José Vitoriano Neto",  50, LocalDate.of(1960, 11, 11), end2);
+        prof1.setTelefones(telefones1);
 
-
+        
+        Telefone tele2 = new Telefone("9999-9999", TelefoneType.RESIDENCIAL);
+        List<Telefone> telefones2 = new ArrayList<>();
+        telefones2.add(tele2);        
+        Professor prof2 = new Professor("777.777.777-77","Francisco Ferreira",  30, LocalDate.of(1989, 11, 01), end2);
+        prof2.setTelefones(telefones2);
+        
         em.getTransaction().begin();
-
-        em.persist(aluno1);
-        em.persist(aluno2);
-        em.persist(livro1);
-        em.persist(livro2);
-        em.persist(livro3);
-        em.persist(autor1);
-        em.persist(autor2);
-        em.persist(autor3);
+        
+//        em.persist(tele1);
+//        em.persist(prof1);
+//        em.persist(tele2);
+//        em.persist(prof2);
+//        em.persist(aluno1);
+//        em.persist(aluno2);
+//        em.persist(livro1);
+//        em.persist(livro2);
+//        em.persist(livro3);
+//        em.persist(autor1);
+//        em.persist(autor2);
+//        em.persist(autor3);
         em.getTransaction().commit();
 
     }
