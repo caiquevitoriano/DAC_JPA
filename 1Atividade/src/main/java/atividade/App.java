@@ -36,12 +36,27 @@ public class App {
                 .createEntityManagerFactory("atividade1")
                 .createEntityManager();
         
-    new povoarBanco(em).dadosIniciais();
-        
+//    new povoarBanco(em).dadosIniciais();
+//    letraB(em);  
 //    letraD(em);
-letraB(em);
+    letraF(em);
+
 
     }
+    
+       private static void letraB(EntityManager em) {
+
+    	
+    	String jpql = "SELECT DISTINCT(p) FROM Professor p, IN (p.telefones) t WHERE p.endereco.rua = :nomeRua";
+        
+    	TypedQuery<Professor> query = em.createQuery(jpql,Professor.class);
+    	query.setParameter("nomeRua", "QUE ATIVIDADE FACIL");
+    	List<Professor> professores = query.getResultList();
+    	for (Professor professor : professores) {
+    		System.out.println(professor.getNome());			
+		}
+    }
+    
 
     // buscar
     private static void letraD(EntityManager em) {    	
@@ -56,18 +71,23 @@ letraB(em);
 		}
     }
     
-    private static void letraB(EntityManager em) {
+     private static void letraF(EntityManager em) {
 
-    	
-    	String jpql = "SELECT DISTINCT(p) FROM Professor p, IN (p.telefones) t WHERE p.endereco.rua = :nomeRua";
+    	String jpql = "SELECT l FROM Livro l, "
+    			+ " IN (l.autores) a"
+    			+ " WHERE a.nome = 'J%'";
+    	Query query = em.createQuery(jpql,Livro.class);
+//    	query.setParameter("nome", "J%");
+    	List<Livro> resulList = query.getResultList();
         
-    	TypedQuery<Professor> query = em.createQuery(jpql,Professor.class);
-    	query.setParameter("nomeRua", "QUE ATIVIDADE FACIL");
-    	List<Professor> professores = query.getResultList();
-    	for (Professor professor : professores) {
-    		System.out.println(professor.getNome());			
-		}
+       for(Livro livro : resulList){
+           System.out.println(livro.getNome());
+       }
+        
+        
     }
+
     
+ 
 
 }

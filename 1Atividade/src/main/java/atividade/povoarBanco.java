@@ -64,6 +64,10 @@ public class povoarBanco {
         Livro livro1 = new Livro( "EU, ROBÔ", "111-1", LocalDate.of(1950, 01, 01));
         Livro livro2 = new Livro( "A FUNDAÇÃO", "222-2", LocalDate.of(1958, 01, 01));
         Livro livro3 = new Livro( "VISÕES DE ROBÔ", "333-3", LocalDate.of(1990, 01, 01));
+        
+        Livro livro4 = new Livro( "Biblia", "444-4", LocalDate.of(1300, 01, 01));
+        List<Livro> livrosJesus = new ArrayList<>();
+
 
         List<Livro> livrosIsimov = new ArrayList<>();
 
@@ -93,6 +97,7 @@ public class povoarBanco {
                 autor2.setLivros(livrosIsimov);
                 
         Autor autor3 = new Autor("IFPB", livrosIsimov, "555.555.555-55", "AUTOR DESCONHECIDO", 80, LocalDate.of(1500, 11, 25), end3);
+        Autor autor4 = new Autor("CEU", livrosJesus, "999.999.999-99", "JESUS", 80, LocalDate.of(0001, 12, 25), end4);
         
         Telefone tele1 = new Telefone("9999-9988", TelefoneType.RESIDENCIAL);
         List<Telefone> telefones1 = new ArrayList<>();
@@ -111,6 +116,8 @@ public class povoarBanco {
         prof3.setTelefones(telefones2);
         
         em.getTransaction().begin();
+        em.persist(livro4);
+        em.persist(autor4);
         //  em.persist(prof3);
 //        em.persist(tele1);
 //        em.persist(prof1);
