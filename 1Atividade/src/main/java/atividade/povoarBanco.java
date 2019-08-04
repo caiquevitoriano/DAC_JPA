@@ -61,20 +61,19 @@ public class povoarBanco {
                 "ads"
         );
 
-        Livro livro1 = new Livro( "EU, ROBÔ", "111-1", LocalDate.of(1950, 01, 01));
-        Livro livro2 = new Livro( "A FUNDAÇÃO", "222-2", LocalDate.of(1958, 01, 01));
-        Livro livro3 = new Livro( "VISÕES DE ROBÔ", "333-3", LocalDate.of(1990, 01, 01));
+        Livro livro1 = new Livro("EU, ROBÔ", "111-1", LocalDate.of(1950, 01, 01));
+        Livro livro2 = new Livro("A FUNDAÇÃO", "222-2", LocalDate.of(1958, 01, 01));
+        Livro livro3 = new Livro("VISÕES DE ROBÔ", "333-3", LocalDate.of(1990, 01, 01));
+        Livro livro4 = new Livro("Biblia", "444-4", LocalDate.of(1300, 01, 01));
         
-        Livro livro4 = new Livro( "Biblia", "444-4", LocalDate.of(1300, 01, 01));
         List<Livro> livrosJesus = new ArrayList<>();
-
+        livrosJesus.add(livro4);
 
         List<Livro> livrosIsimov = new ArrayList<>();
 
         livrosIsimov.add(livro3);
         livrosIsimov.add(livro1);
         livrosIsimov.add(livro2);
-        
 
         Autor autor1 = new Autor(
                 "UFIP",
@@ -85,7 +84,6 @@ public class povoarBanco {
                 end1
         );
 
-
         Autor autor2 = new Autor(
                 "UFURSS",
                 "444.444.444-44",
@@ -93,31 +91,32 @@ public class povoarBanco {
                 22,
                 LocalDate.of(1982, 11, 21),
                 end3);
-        
-                autor2.setLivros(livrosIsimov);
-                
+
+        autor2.setLivros(livrosIsimov);
+
         Autor autor3 = new Autor("IFPB", livrosIsimov, "555.555.555-55", "AUTOR DESCONHECIDO", 80, LocalDate.of(1500, 11, 25), end3);
         Autor autor4 = new Autor("CEU", livrosJesus, "999.999.999-99", "JESUS", 80, LocalDate.of(0001, 12, 25), end4);
+        autor4.setLivros(livrosJesus);
+        
         
         Telefone tele1 = new Telefone("9999-9988", TelefoneType.RESIDENCIAL);
         List<Telefone> telefones1 = new ArrayList<>();
         telefones1.add(tele1);
-        Professor prof1 = new Professor("666.666.666-66","José Vitoriano Neto",  50, LocalDate.of(1960, 11, 11), end2);
+        Professor prof1 = new Professor("666.666.666-66", "José Vitoriano Neto", 50, LocalDate.of(1960, 11, 11), end2);
         prof1.setTelefones(telefones1);
 
-        
         Telefone tele2 = new Telefone("9999-9999", TelefoneType.RESIDENCIAL);
         List<Telefone> telefones2 = new ArrayList<>();
-        telefones2.add(tele2);        
-        Professor prof2 = new Professor("777.777.777-77","Francisco Ferreira",  30, LocalDate.of(1989, 11, 01), end2);
+        telefones2.add(tele2);
+        Professor prof2 = new Professor("777.777.777-77", "Francisco Ferreira", 30, LocalDate.of(1989, 11, 01), end2);
         prof2.setTelefones(telefones2);
-        
-        Professor prof3 = new Professor("888.888.888-88","Ana Cavalcante",  47, LocalDate.of(1979, 12, 01), end4);
+
+        Professor prof3 = new Professor("888.888.888-88", "Ana Cavalcante", 47, LocalDate.of(1979, 12, 01), end4);
         prof3.setTelefones(telefones2);
-        
+
         em.getTransaction().begin();
-        em.persist(livro4);
-        em.persist(autor4);
+//        em.persist(livro4);
+//        em.persist(autor4);
         //  em.persist(prof3);
 //        em.persist(tele1);
 //        em.persist(prof1);

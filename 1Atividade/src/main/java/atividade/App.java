@@ -35,76 +35,79 @@ public class App {
         EntityManager em = Persistence
                 .createEntityManagerFactory("atividade1")
                 .createEntityManager();
-        
+
 //    new povoarBanco(em).dadosIniciais();
 //    letraB(em);  
 //    letraD(em);
 //    letraF(em);
-letraE(em);
-
-
+//    letraE(em);
+//    letraA(em);
     }
-    
-       private static void letraB(EntityManager em) {
 
-    	
-    	String jpql = "SELECT DISTINCT(p) FROM Professor p, IN (p.telefones) t WHERE p.endereco.rua = :nomeRua";
-        
-    	TypedQuery<Professor> query = em.createQuery(jpql,Professor.class);
-    	query.setParameter("nomeRua", "QUE ATIVIDADE FACIL");
-    	List<Professor> professores = query.getResultList();
-    	for (Professor professor : professores) {
-    		System.out.println(professor.getNome());			
-		}
+    private static void letraB(EntityManager em) {
+
+        String jpql = "SELECT DISTINCT(p) FROM Professor p, IN (p.telefones) t WHERE p.endereco.rua = :nomeRua";
+
+        TypedQuery<Professor> query = em.createQuery(jpql, Professor.class);
+        query.setParameter("nomeRua", "QUE ATIVIDADE FACIL");
+        List<Professor> professores = query.getResultList();
+        for (Professor professor : professores) {
+            System.out.println(professor.getNome());
+        }
     }
-    
 
     // buscar
-    private static void letraD(EntityManager em) {    	
-    	String jpql = "SELECT p FROM Professor p, IN(p.telefones) t WHERE t.numero like :numFinal ";
-    	
+    private static void letraD(EntityManager em) {
+        String jpql = "SELECT p FROM Professor p, IN(p.telefones) t WHERE t.numero like :numFinal ";
+
         Query query = em.createQuery(jpql, Professor.class);
-    	query.setParameter("numFinal", "%8");
-        
-    	List<Professor> resulList = query.getResultList();
-    	for (Professor professor : resulList) {
-			System.out.println(professor.getNome());
-		}
+        query.setParameter("numFinal", "%8");
+
+        List<Professor> resulList = query.getResultList();
+        for (Professor professor : resulList) {
+            System.out.println(professor.getNome());
+        }
     }
-    
+
     private static void letraF(EntityManager em) {
 
-    	String jpql = "SELECT l FROM Livro l, "
-    			+ " IN (l.autores) a"
-    			+ " WHERE a.nome = 'J%'";
-    	Query query = em.createQuery(jpql,Livro.class);
+        String jpql = "SELECT l FROM Livro l, "
+                + " IN (l.autores) a"
+                + " WHERE a.nome = 'J%'";
+        Query query = em.createQuery(jpql, Livro.class);
 //    	query.setParameter("nome", "J%");
-    	List<Livro> resulList = query.getResultList();
-        
-       for(Livro livro : resulList){
-           System.out.println(livro.getNome());
-       }
-        
-        
+        List<Livro> resulList = query.getResultList();
+
+        for (Livro livro : resulList) {
+            System.out.println(livro.getNome());
+        }
+
     }
 
-    
+    // falta passar o intervalo de lançamento do livro 
     private static void letraE(EntityManager em) {
 
-    	String jpql = "SELECT l FROM Livro l JOIN l.autores a WHERE a.endereco.cidade = 'RUSSIA'";
+        String jpql = "SELECT l FROM Livro l JOIN l.autores a WHERE a.endereco.cidade = 'RUSSIA'";
 
+        Query query = em.createQuery(jpql, Livro.class);
 
-    	Query query = em.createQuery(jpql,Livro.class);
-//    	query.setParameter("cidade", "Cajazeiras-PB");
-//    	query.setParameter("inicio", Date.valueOf("2019-01-01"));
-//    	query.setParameter("fim", Date.valueOf("2019-12-12"));
-    		List<Livro> resulList = query.getResultList();
-        
-       for(Livro livro : resulList){
-           System.out.println(livro.getNome());
-       }
+        List<Livro> resulList = query.getResultList();
+
+        for (Livro livro : resulList) {
+            System.out.println(livro.getNome());
+        }
     }
-    
- 
+
+    private static void letraA(EntityManager em) {
+        String jpql = "SELECT DISTINCT(l) FROM Livro l IN(l.autores) a"
+                + " WHERE NOT (a.dataNascimento = :nasc)";
+        TypedQuery<Livro> query = em.createQuery(jpql, Livro.class);
+        query.setParameter("nasc", LocalDate.of(1982, 11, 21));
+        List<Livro> resulList = query.getResultList();
+
+        for (Livro livro : resulList) {
+            System.out.println(livro.getNome());
+        }
+    }
 
 }
