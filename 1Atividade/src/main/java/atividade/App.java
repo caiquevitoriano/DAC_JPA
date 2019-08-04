@@ -39,7 +39,8 @@ public class App {
 //    new povoarBanco(em).dadosIniciais();
 //    letraB(em);  
 //    letraD(em);
-    letraF(em);
+//    letraF(em);
+letraE(em);
 
 
     }
@@ -71,7 +72,7 @@ public class App {
 		}
     }
     
-     private static void letraF(EntityManager em) {
+    private static void letraF(EntityManager em) {
 
     	String jpql = "SELECT l FROM Livro l, "
     			+ " IN (l.autores) a"
@@ -87,6 +88,22 @@ public class App {
         
     }
 
+    
+    private static void letraE(EntityManager em) {
+
+    	String jpql = "SELECT l FROM Livro l JOIN l.autores a WHERE a.endereco.cidade = 'RUSSIA'";
+
+
+    	Query query = em.createQuery(jpql,Livro.class);
+//    	query.setParameter("cidade", "Cajazeiras-PB");
+//    	query.setParameter("inicio", Date.valueOf("2019-01-01"));
+//    	query.setParameter("fim", Date.valueOf("2019-12-12"));
+    		List<Livro> resulList = query.getResultList();
+        
+       for(Livro livro : resulList){
+           System.out.println(livro.getNome());
+       }
+    }
     
  
 
