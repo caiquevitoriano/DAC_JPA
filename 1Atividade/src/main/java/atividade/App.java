@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package atividade;
+import domain.AlunoVO;
 
 import domain.Aluno;
 import domain.Autor;
@@ -20,6 +21,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import jdk.nashorn.internal.objects.NativeRegExp;
 
 /**
  *
@@ -27,21 +29,19 @@ import javax.persistence.TypedQuery;
  */
 public class App {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
 
         EntityManager em = Persistence
                 .createEntityManagerFactory("atividade1")
                 .createEntityManager();
 
-//    new povoarBanco(em).dadosIniciais();
+        new povoarBanco(em).dadosIniciais();
 //    letraB(em);  
 //    letraD(em);
 //    letraF(em);
 //    letraE(em);
 //    letraA(em);
+        letraC(em);
     }
 
     private static void letraB(EntityManager em) {
@@ -107,6 +107,20 @@ public class App {
 
         for (Livro livro : resulList) {
             System.out.println(livro.getNome());
+        }
+    }
+
+    private static void letraC(EntityManager em) {
+        String jpql = "SELECT cpf, nome, idade FROM Aluno a "
+                + " WHERE a.turma = #turma "; 
+        
+        Query query = em.createNativeQuery(jpql, "AlunoVO");
+        query.setParameter("turma", "2019.1");
+        
+        List<AlunoVO> resultList = query.getResultList();
+
+        for (AlunoVO alunoVO : resultList) {
+            System.out.println(alunoVO.getNome());
         }
     }
 

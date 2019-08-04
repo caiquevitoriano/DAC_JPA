@@ -8,8 +8,11 @@ package domain;
 import convert.ConvertLocalDate;
 import java.time.LocalDate;
 import java.util.Date;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -17,6 +20,19 @@ import javax.persistence.TemporalType;
  *
  * @author caique
  */
+
+
+@SqlResultSetMapping(
+		name = "AlunoVO",
+		classes = @ConstructorResult(
+				targetClass = AlunoVO.class,
+				columns= {
+						@ColumnResult(name = "nome"),
+						@ColumnResult(name = "cpf"),
+                                                @ColumnResult(name = "idade")
+				})
+)
+
 @Entity
 public class Aluno extends Pessoa {
 

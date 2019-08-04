@@ -38,6 +38,7 @@ public class povoarBanco {
         Endereco end2 = new Endereco("CLOVES ROLIM", "CENTRO", "SANTA HELENA", "58925-000");
         Endereco end3 = new Endereco("NA RUSSIA", "RUSSIA", "RUSSIA", "11111-000");
         Endereco end4 = new Endereco("QUE ATIVIDADE FACIL", "MENTIRA", "É NÃO", "00000-000");
+        Endereco end5 = new Endereco("Não sei", "Onde", "Estou", "66666-666");
 
         Aluno aluno1 = new Aluno(
                 "CAIQUE VITORIANO",
@@ -59,6 +60,17 @@ public class povoarBanco {
                 "222",
                 LocalDate.of(1997, 04, 21),
                 "ads"
+        );
+        
+                Aluno aluno3 = new Aluno(
+                "Vinicios",
+                "101.101.101-10",
+                20,
+                LocalDate.of(1999, 9, 03),
+                end5,
+                "222",
+                LocalDate.of(2000, 04, 21),
+                "2019.1"
         );
 
         Livro livro1 = new Livro("EU, ROBÔ", "111-1", LocalDate.of(1950, 01, 01));
@@ -115,6 +127,7 @@ public class povoarBanco {
         prof3.setTelefones(telefones2);
 
         em.getTransaction().begin();
+//        em.persist(aluno3);
 //        em.persist(livro4);
 //        em.persist(autor4);
         //  em.persist(prof3);
