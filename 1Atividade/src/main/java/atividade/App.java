@@ -40,7 +40,7 @@ public class App {
 
 //        letraA(em);
 //        letraB(em);
-//        letraC(em);
+        letraC(em);
 //        letraD(em);
 //        letraE(em);
 //        letraF(em);
@@ -80,7 +80,7 @@ public class App {
         List<AlunoVO> resultList = query.getResultList();
 
         for (AlunoVO alunoVO : resultList) {
-            System.out.println(alunoVO.getNome());
+            System.out.println(alunoVO.toString());
         }
     }
 

@@ -45,9 +45,9 @@ public class AppCriteria {
                 .createEntityManager();
 
         //new povoarBanco(em).dadosIniciais();
-        letraA(em);
+//        letraA(em);
 //        letraB(em);
-//        letraC(em);
+        letraC(em);
 //        letraD(em);
 //        letraE(em);
 //        letraF(em);
@@ -60,13 +60,13 @@ public class AppCriteria {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Livro> criteria = builder.createQuery(Livro.class);
         Root<Livro> root = criteria.from(Livro.class);
-        
+
         Join<Livro, Autor> join = root.join("autores", JoinType.LEFT);
         Predicate dataNascimento = builder.notEqual(join.get("dataNascimento"), LocalDate.of(1982, 11, 12));
         criteria.distinct(true).where(dataNascimento);
-        
+
         em.createQuery(criteria).getResultList().forEach(
-                l-> System.out.println(l.getNome())
+                l -> System.out.println(l.getNome())
         );
     }
 
@@ -90,17 +90,30 @@ public class AppCriteria {
     }
 
     private static void letraC(EntityManager em) {
-        String jpql = "SELECT cpf, nome, idade FROM Aluno a "
-                + " WHERE a.turma = #turma ";
+//        String jpql = "SELECT cpf, nome, idade FROM Aluno a "
+//                + " WHERE a.turma = #turma ";
+//
+//        Query query = em.createNativeQuery(jpql, "AlunoVO");
+//        query.setParameter("turma", "2019.1");
+//
+//        List<AlunoVO> resultList = query.getResultList();
+//
+//        for (AlunoVO alunoVO : resultList) {
+//            System.out.println(alunoVO.getNome());
+//        }
 
-        Query query = em.createNativeQuery(jpql, "AlunoVO");
-        query.setParameter("turma", "2019.1");
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<AlunoVO> criteria = builder.createQuery(AlunoVO.class);
+        Root<Aluno> root = criteria.from(Aluno.class);
+        
+        Predicate predicate = builder.equal(root.get("turma"), "2019.1");
+        criteria.multiselect(root.get("nome"), root.get("cpf"), root.get("idade")).where(predicate);
+        
+         em.createQuery(criteria).getResultList().forEach(
+                a-> System.out.println(a.toString())
+         );      
+        
 
-        List<AlunoVO> resultList = query.getResultList();
-
-        for (AlunoVO alunoVO : resultList) {
-            System.out.println(alunoVO.getNome());
-        }
     }
 
     private static void letraD(EntityManager em) {

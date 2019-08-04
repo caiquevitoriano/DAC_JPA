@@ -48,6 +48,11 @@ public class AlunoVO {
         this.idade = idade;
     }
 
+    @Override
+    public String toString() {
+        return "AlunoVO{" + "cpf=" + cpf + ", nome=" + nome + ", idade=" + idade + '}';
+    }
+
    
 
     
