@@ -17,6 +17,7 @@ import domain.Telefone;
 import java.time.Instant;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -44,8 +45,8 @@ public class AppCriteria {
                 .createEntityManager();
 
         //new povoarBanco(em).dadosIniciais();
-//        letraA(em);
-        letraB(em);
+        letraA(em);
+//        letraB(em);
 //        letraC(em);
 //        letraD(em);
 //        letraE(em);
@@ -53,27 +54,31 @@ public class AppCriteria {
     }
 
     private static void letraA(EntityManager em) {
-        String jpql = "SELECT DISTINCT(l) FROM Livro l IN(l.autores) a"
-                + " WHERE NOT (a.dataNascimento = :nasc)";
-        TypedQuery<Livro> query = em.createQuery(jpql, Livro.class);
-        query.setParameter("nasc", LocalDate.of(1982, 11, 21));
-        List<Livro> resulList = query.getResultList();
+//      String jpql = "SELECT DISTINCT(l) FROM Livro l IN(l.autores) a"
+//              + " WHERE NOT (a.dataNascimento = :nasc)";
 
-        for (Livro livro : resulList) {
-            System.out.println(livro.getNome());
-        }
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Livro> criteria = builder.createQuery(Livro.class);
+        Root<Livro> root = criteria.from(Livro.class);
+        
+        Join<Livro, Autor> join = root.join("autores", JoinType.LEFT);
+        Predicate dataNascimento = builder.notEqual(join.get("dataNascimento"), LocalDate.of(1982, 11, 12));
+        criteria.distinct(true).where(dataNascimento);
+        
+        em.createQuery(criteria).getResultList().forEach(
+                l-> System.out.println(l.getNome())
+        );
     }
 
     private static void letraB(EntityManager em) {
 
-//        String jpql = "SELECT DISTINCT(p) FROM Professor p, IN (p.telefones) t WHERE p.endereco.rua = :nomeRua";
+//      String jpql = "SELECT DISTINCT(p) FROM Professor p, IN (p.telefones) t WHERE p.endereco.rua = :nomeRua";
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Professor> criteria = builder.createQuery(Professor.class);
         Root<Professor> root = criteria.from(Professor.class);
 
         Predicate rua = builder.equal(root.get("endereco").get("rua"), "QUE ATIVIDADE FACIL");
         Join<Professor, Telefone> join = root.join("telefones", JoinType.LEFT);
-
         Predicate telefone = builder.isNotNull(join.get("numero"));
         criteria.where(rua, telefone);
 
