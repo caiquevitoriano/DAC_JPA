@@ -37,6 +37,7 @@ public class povoarBanco {
         Endereco end1 = new Endereco("PROTAZIO DE SOUSA", "JARDIM OASIS", "CAJAZEIRAS", "58900-000");
         Endereco end2 = new Endereco("CLOVES ROLIM", "CENTRO", "SANTA HELENA", "58925-000");
         Endereco end3 = new Endereco("NA RUSSIA", "RUSSIA", "RUSSIA", "11111-000");
+        Endereco end4 = new Endereco("QUE ATIVIDADE FACIL", "MENTIRA", "É NÃO", "00000-000");
 
         Aluno aluno1 = new Aluno(
                 "CAIQUE VITORIANO",
@@ -106,8 +107,11 @@ public class povoarBanco {
         Professor prof2 = new Professor("777.777.777-77","Francisco Ferreira",  30, LocalDate.of(1989, 11, 01), end2);
         prof2.setTelefones(telefones2);
         
-        em.getTransaction().begin();
+        Professor prof3 = new Professor("888.888.888-88","Ana Cavalcante",  47, LocalDate.of(1979, 12, 01), end4);
+        prof3.setTelefones(telefones2);
         
+        em.getTransaction().begin();
+        //  em.persist(prof3);
 //        em.persist(tele1);
 //        em.persist(prof1);
 //        em.persist(tele2);

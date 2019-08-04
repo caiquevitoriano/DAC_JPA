@@ -36,13 +36,14 @@ public class App {
                 .createEntityManagerFactory("atividade1")
                 .createEntityManager();
         
-    //new povoarBanco(em).dadosIniciais();
+    new povoarBanco(em).dadosIniciais();
         
-    letraD(em);
+//    letraD(em);
+letraB(em);
 
     }
 
-    
+    // buscar
     private static void letraD(EntityManager em) {    	
     	String jpql = "SELECT p FROM Professor p, IN(p.telefones) t WHERE t.numero like :numFinal ";
     	
@@ -52,6 +53,19 @@ public class App {
     	List<Professor> resulList = query.getResultList();
     	for (Professor professor : resulList) {
 			System.out.println(professor.getNome());
+		}
+    }
+    
+    private static void letraB(EntityManager em) {
+
+    	
+    	String jpql = "SELECT DISTINCT(p) FROM Professor p, IN (p.telefones) t WHERE p.endereco.rua = :nomeRua";
+        
+    	TypedQuery<Professor> query = em.createQuery(jpql,Professor.class);
+    	query.setParameter("nomeRua", "QUE ATIVIDADE FACIL");
+    	List<Professor> professores = query.getResultList();
+    	for (Professor professor : professores) {
+    		System.out.println(professor.getNome());			
 		}
     }
     
