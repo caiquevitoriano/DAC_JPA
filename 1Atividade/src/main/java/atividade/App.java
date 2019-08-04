@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package atividade;
+
 import domain.AlunoVO;
 
 import domain.Aluno;
@@ -36,12 +37,25 @@ public class App {
                 .createEntityManager();
 
         new povoarBanco(em).dadosIniciais();
-//    letraB(em);  
-//    letraD(em);
-//    letraF(em);
-//    letraE(em);
-//    letraA(em);
-        letraC(em);
+
+//        letraA(em);
+//        letraB(em);
+//        letraC(em);
+//        letraD(em);
+//        letraE(em);
+//        letraF(em);
+    }
+
+    private static void letraA(EntityManager em) {
+        String jpql = "SELECT DISTINCT(l) FROM Livro l IN(l.autores) a"
+                + " WHERE NOT (a.dataNascimento = :nasc)";
+        TypedQuery<Livro> query = em.createQuery(jpql, Livro.class);
+        query.setParameter("nasc", LocalDate.of(1982, 11, 21));
+        List<Livro> resulList = query.getResultList();
+
+        for (Livro livro : resulList) {
+            System.out.println(livro.getNome());
+        }
     }
 
     private static void letraB(EntityManager em) {
@@ -56,7 +70,20 @@ public class App {
         }
     }
 
-    // buscar
+    private static void letraC(EntityManager em) {
+        String jpql = "SELECT cpf, nome, idade FROM Aluno a "
+                + " WHERE a.turma = #turma ";
+
+        Query query = em.createNativeQuery(jpql, "AlunoVO");
+        query.setParameter("turma", "2019.1");
+
+        List<AlunoVO> resultList = query.getResultList();
+
+        for (AlunoVO alunoVO : resultList) {
+            System.out.println(alunoVO.getNome());
+        }
+    }
+
     private static void letraD(EntityManager em) {
         String jpql = "SELECT p FROM Professor p, IN(p.telefones) t WHERE t.numero like :numFinal ";
 
@@ -66,6 +93,23 @@ public class App {
         List<Professor> resulList = query.getResultList();
         for (Professor professor : resulList) {
             System.out.println(professor.getNome());
+        }
+    }
+
+    private static void letraE(EntityManager em) {
+
+        String jpql = "SELECT l FROM Livro l JOIN l.autores a WHERE a.endereco.cidade = :cidade AND "
+                + "l.lancamento BETWEEN :data1 AND :data2";
+
+        Query query = em.createQuery(jpql, Livro.class);
+        query.setParameter("cidade", "CAJAZEIRAS-PB");
+    	query.setParameter("data1", LocalDate.of(2019, 01, 01));
+    	query.setParameter("data2", LocalDate.of(2019, 12, 12));
+
+        List<Livro> resulList = query.getResultList();
+
+        for (Livro livro : resulList) {
+            System.out.println(livro.getNome());
         }
     }
 
@@ -82,46 +126,6 @@ public class App {
             System.out.println(livro.getNome());
         }
 
-    }
-
-    // falta passar o intervalo de lançamento do livro 
-    private static void letraE(EntityManager em) {
-
-        String jpql = "SELECT l FROM Livro l JOIN l.autores a WHERE a.endereco.cidade = 'RUSSIA'";
-
-        Query query = em.createQuery(jpql, Livro.class);
-
-        List<Livro> resulList = query.getResultList();
-
-        for (Livro livro : resulList) {
-            System.out.println(livro.getNome());
-        }
-    }
-
-    private static void letraA(EntityManager em) {
-        String jpql = "SELECT DISTINCT(l) FROM Livro l IN(l.autores) a"
-                + " WHERE NOT (a.dataNascimento = :nasc)";
-        TypedQuery<Livro> query = em.createQuery(jpql, Livro.class);
-        query.setParameter("nasc", LocalDate.of(1982, 11, 21));
-        List<Livro> resulList = query.getResultList();
-
-        for (Livro livro : resulList) {
-            System.out.println(livro.getNome());
-        }
-    }
-
-    private static void letraC(EntityManager em) {
-        String jpql = "SELECT cpf, nome, idade FROM Aluno a "
-                + " WHERE a.turma = #turma "; 
-        
-        Query query = em.createNativeQuery(jpql, "AlunoVO");
-        query.setParameter("turma", "2019.1");
-        
-        List<AlunoVO> resultList = query.getResultList();
-
-        for (AlunoVO alunoVO : resultList) {
-            System.out.println(alunoVO.getNome());
-        }
     }
 
 }
