@@ -117,15 +117,32 @@ public class AppCriteria {
     }
 
     private static void letraD(EntityManager em) {
-        String jpql = "SELECT p FROM Professor p, IN(p.telefones) t WHERE t.numero like :numFinal ";
+//        String jpql = "SELECT p FROM Professor p, IN(p.telefones) t WHERE t.numero like :numFinal ";
+//
+//        Query query = em.createQuery(jpql, Professor.class);
+//        query.setParameter("numFinal", "%8");
+//
+//        List<Professor> resulList = query.getResultList();
+//        for (Professor professor : resulList) {
+//            System.out.println(professor.getNome());
+//        }
 
-        Query query = em.createQuery(jpql, Professor.class);
-        query.setParameter("numFinal", "%8");
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Professor> criteria = builder.createQuery(Professor.class);
+        Root<Professor> root = criteria.from(Professor.class);        
+        Join<Professor, Telefone> join = root.join("telefones", JoinType.LEFT);
+        Predicate predicate = builder.like(join.get("numero"), "%8");        
+        criteria.where(predicate);
+        
+        em.createQuery(criteria).getResultList().forEach(
+                p-> System.out.println(p.toString())
+        );
 
-        List<Professor> resulList = query.getResultList();
-        for (Professor professor : resulList) {
-            System.out.println(professor.getNome());
-        }
+        
+
+        
+        
+        
     }
 
     private static void letraE(EntityManager em) {
