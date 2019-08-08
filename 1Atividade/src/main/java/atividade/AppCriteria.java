@@ -47,9 +47,9 @@ public class AppCriteria {
         //new povoarBanco(em).dadosIniciais();
 //        letraA(em);
 //        letraB(em);
-        letraC(em);
+//        letraC(em);
 //        letraD(em);
-//        letraE(em);
+        letraE(em);
 //        letraF(em);
     }
 
@@ -105,14 +105,13 @@ public class AppCriteria {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<AlunoVO> criteria = builder.createQuery(AlunoVO.class);
         Root<Aluno> root = criteria.from(Aluno.class);
-        
+
         Predicate predicate = builder.equal(root.get("turma"), "2019.1");
         criteria.multiselect(root.get("nome"), root.get("cpf"), root.get("idade")).where(predicate);
-        
-         em.createQuery(criteria).getResultList().forEach(
-                a-> System.out.println(a.toString())
-         );      
-        
+
+        em.createQuery(criteria).getResultList().forEach(
+                a -> System.out.println(a.toString())
+        );
 
     }
 
@@ -129,37 +128,46 @@ public class AppCriteria {
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Professor> criteria = builder.createQuery(Professor.class);
-        Root<Professor> root = criteria.from(Professor.class);        
+        Root<Professor> root = criteria.from(Professor.class);
         Join<Professor, Telefone> join = root.join("telefones", JoinType.LEFT);
-        Predicate predicate = builder.like(join.get("numero"), "%8");        
+        Predicate predicate = builder.like(join.get("numero"), "%8");
         criteria.where(predicate);
-        
+
         em.createQuery(criteria).getResultList().forEach(
-                p-> System.out.println(p.toString())
+                p -> System.out.println(p.toString())
         );
 
-        
-
-        
-        
-        
     }
 
     private static void letraE(EntityManager em) {
 
-        String jpql = "SELECT l FROM Livro l JOIN l.autores a WHERE a.endereco.cidade = :cidade AND "
-                + "l.lancamento BETWEEN :data1 AND :data2";
+//        String jpql = "SELECT l FROM Livro l JOIN l.autores a WHERE a.endereco.cidade = :cidade AND "
+//                + "l.lancamento BETWEEN :data1 AND :data2";
+//
+//        Query query = em.createQuery(jpql, Livro.class);
+//        query.setParameter("cidade", "CAJAZEIRAS-PB");
+//        query.setParameter("data1", LocalDate.of(2019, 01, 01));
+//        query.setParameter("data2", LocalDate.of(2019, 12, 12));
+//
+//        List<Livro> resulList = query.getResultList();
+//
+//        for (Livro livro : resulList) {
+//            System.out.println(livro.getNome());
+//        }
 
-        Query query = em.createQuery(jpql, Livro.class);
-        query.setParameter("cidade", "CAJAZEIRAS-PB");
-        query.setParameter("data1", LocalDate.of(2019, 01, 01));
-        query.setParameter("data2", LocalDate.of(2019, 12, 12));
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Livro> criteria = builder.createQuery(Livro.class);
+        Root<Livro> root = criteria.from(Livro.class);
+        Join<Livro, Autor> join = root.join("autores");
+        Predicate predicate1 = builder.like(join.get("endereco").get("cidade"), "CAJAZEIRAS-PB");
+        Predicate predicate2 = builder.between(root.get("lancamento"), LocalDate.of(2019, 01, 01), LocalDate.of(2019, 11, 12));
+        criteria.where(predicate1, predicate2);
+        
+        em.createQuery(criteria).getResultList().forEach(
+                l -> System.out.println(l.getNome())
+        );
+        
 
-        List<Livro> resulList = query.getResultList();
-
-        for (Livro livro : resulList) {
-            System.out.println(livro.getNome());
-        }
     }
 
     private static void letraF(EntityManager em) {
