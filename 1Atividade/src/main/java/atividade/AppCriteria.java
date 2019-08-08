@@ -49,8 +49,8 @@ public class AppCriteria {
 //        letraB(em);
 //        letraC(em);
 //        letraD(em);
-        letraE(em);
-//        letraF(em);
+//        letraE(em);
+        letraF(em);
     }
 
     private static void letraA(EntityManager em) {
@@ -154,7 +154,6 @@ public class AppCriteria {
 //        for (Livro livro : resulList) {
 //            System.out.println(livro.getNome());
 //        }
-
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Livro> criteria = builder.createQuery(Livro.class);
         Root<Livro> root = criteria.from(Livro.class);
@@ -162,26 +161,26 @@ public class AppCriteria {
         Predicate predicate1 = builder.like(join.get("endereco").get("cidade"), "CAJAZEIRAS-PB");
         Predicate predicate2 = builder.between(root.get("lancamento"), LocalDate.of(2019, 01, 01), LocalDate.of(2019, 11, 12));
         criteria.where(predicate1, predicate2);
-        
+
         em.createQuery(criteria).getResultList().forEach(
                 l -> System.out.println(l.getNome())
         );
-        
 
     }
 
     private static void letraF(EntityManager em) {
 
-        String jpql = "SELECT l FROM Livro l, "
-                + " IN (l.autores) a"
-                + " WHERE a.nome = 'J%'";
-        Query query = em.createQuery(jpql, Livro.class);
-//    	query.setParameter("nome", "J%");
-        List<Livro> resulList = query.getResultList();
 
-        for (Livro livro : resulList) {
-            System.out.println(livro.getNome());
-        }
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Livro> criteria = builder.createQuery(Livro.class);
+        Root<Livro> root = criteria.from(Livro.class);
+        
+        Join<Livro, Autor> join = root.join("autores");
+        Predicate predicate = builder.like(builder.lower(join.get("nome")), "j%");
+        criteria.where(predicate);
+        em.createQuery(criteria).getResultList().forEach(
+                l -> System.out.println(l.getNome())
+        );
 
     }
 
