@@ -5,6 +5,7 @@
  */
 package dominio;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -16,11 +17,11 @@ import javax.persistence.OneToMany;
  */
 
 @Entity
-public class Revisor extends Pessoa{
+public class Revisor extends Pessoa implements Serializable{
     
     private String nota;    
     
-    @OneToMany(mappedBy = "revisor")
+    @OneToMany
     private List<Publicacao> publicacoes;
 
     public Revisor() {

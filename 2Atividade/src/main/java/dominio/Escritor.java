@@ -5,19 +5,22 @@
  */
 package dominio;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 /**
  *
  * @author caique
  */
-public class Escritor extends Pessoa{
+@Entity
+public class Escritor extends Pessoa implements Serializable{
     
     private int premios;
     
-    @OneToMany(mappedBy = "escritor")
+    @OneToMany
     private List<Publicacao> publicacaos;
 
     public Escritor() {

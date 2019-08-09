@@ -15,7 +15,7 @@ import javax.persistence.*;
  */
 
 @Entity
-class Publicacao implements Serializable {
+public class Publicacao implements Serializable {
     
     @Id
     private int codPublicacao;
