@@ -21,20 +21,17 @@ public class Escritor extends Pessoa{
     private int premios;
     
     @OneToMany(mappedBy = "escritor")
-    private List<Publicacao> publicacaos;
+    private List<Publicacao> publicacoes;
 
     public Escritor() {
     }    
     
-    public Escritor(int premios, List<Publicacao> publicacaos) {
-        this.premios = premios;
-        this.publicacaos = publicacaos;
-    }
+  
 
     public Escritor(int premios, List<Publicacao> publicacaos, int id, String nome, Date dataNasciemntp) {
         super(id, nome, dataNasciemntp);
         this.premios = premios;
-        this.publicacaos = publicacaos;
+        this.publicacoes = publicacoes;
     }
 
     public int getPremios() {
@@ -46,11 +43,11 @@ public class Escritor extends Pessoa{
     }
 
     public List<Publicacao> getPublicacaos() {
-        return publicacaos;
+        return publicacoes;
     }
 
-    public void setPublicacaos(List<Publicacao> publicacaos) {
-        this.publicacaos = publicacaos;
+    public void setPublicacaos(List<Publicacao> publicacoes) {
+        this.publicacoes = publicacoes;
     }
     
     

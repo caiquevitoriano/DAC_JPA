@@ -28,7 +28,8 @@ public class App {
         new povoarBanco(em).dadosIniciais();
 
 //        letraB(em);
-        letraC(em);
+//        letraC(em);
+        letraD(em);
 
     }
 
@@ -45,13 +46,26 @@ public class App {
             System.out.println("Revisor: " + object[1]);
         }
     }
-    
+
 //  c. O nome dos Revisores que possuem alguma publicação começando com Java.
     private static void letraC(EntityManager em) {
 
         String jpql = "SELECT r.nome FROM Revisor r, IN(r.publicacoes) p WHERE p.titulo LIKE 'Java%'";
         TypedQuery<String> query = em.createQuery(jpql, String.class);
-        
+
         query.getResultList().forEach(System.out::println);
+    }
+
+    private static void letraD(EntityManager em) {
+        String jpql = "SELECT e.nome, count(p) FROM Escritor e, IN(e.publicacoes) p WHERE e.premios > 3 GROUP BY e.nome";
+
+        Query query = em.createQuery(jpql);
+        List<Object[]> lista = query.getResultList();
+        
+        for (Object[] object : lista) {
+            System.out.println("Escritor: " + object[0] + " -- Quantidade de Publicações: " + object[1]);
+           
+        }
+
     }
 }
