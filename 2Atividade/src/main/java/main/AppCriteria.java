@@ -6,6 +6,7 @@
 package main;
 
 import dominio.Area;
+import dominio.Escritor;
 import dominio.Publicacao;
 import dominio.Revisor;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -36,9 +38,9 @@ public class AppCriteria {
         new povoarBanco(em).dadosIniciais();
 
 //        letraA(em);
-        letraB(em);
+//        letraB(em);
 //        letraC(em);
-//        letraD(em);
+        letraD(em);
 
     }
 
@@ -86,20 +88,36 @@ public class AppCriteria {
 //  c. O nome dos Revisores que possuem alguma publicação começando com Java.
     private static void letraC(EntityManager em) {
 
-        String jpql = "SELECT r.nome FROM Revisor r, IN(r.publicacoes) p WHERE p.titulo LIKE 'Java%'";
-        TypedQuery<String> query = em.createQuery(jpql, String.class);
-
-        query.getResultList().forEach(System.out::println);
+        //String jpql = "SELECT r.nome FROM Revisor r, IN(r.publicacoes) p WHERE p.titulo LIKE 'Java%'";
+        
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<String> criteria = builder.createQuery(String.class);
+        
+        Root<Revisor> root = criteria.from(Revisor.class);
+        Join<Revisor, Publicacao> join = root.join("publicacoes");
+        Predicate predicate = builder.like((join.get("titulo")), "Java%");        
+        criteria.where(predicate).select(root.get("nome"));
+        
+        em.createQuery(criteria).getResultList().forEach(System.out::println);
+        
     }
 
 //  d. O nome e a quantidade de Publicações escritas por Escritores com mais que três
 //  prêmios.
     private static void letraD(EntityManager em) {
-        String jpql = "SELECT e.nome, count(p) FROM Escritor e, IN(e.publicacoes) p WHERE e.premios > 3 GROUP BY e.nome";
+        //String jpql = "SELECT e.nome, count(p) FROM Escritor e, IN(e.publicacoes) p WHERE e.premios > 3 GROUP BY e.nome";
 
-        Query query = em.createQuery(jpql);
-        List<Object[]> lista = query.getResultList();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
+        
+        Root<Escritor> root  = criteria.from(Escritor.class);
+        Join<Escritor, Publicacao> join = root.join("publicacoes");
+ 
+        Predicate predicate = builder.gt(root.get("premios"), 3);
 
+        criteria.multiselect(root.get("nome"), builder.count(join)).where(predicate).groupBy(root.get("nome"));
+        
+        List<Object[]> lista = em.createQuery(criteria).getResultList();
         for (Object[] object : lista) {
             System.out.println("Escritor: " + object[0] + "Quantidade de Publicações: " + object[1]);
             System.out.println("------------------");
