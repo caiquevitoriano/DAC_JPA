@@ -17,11 +17,11 @@ import javax.persistence.OneToMany;
  */
 
 @Entity
-public class Revisor extends Pessoa implements Serializable{
+public class Revisor extends Pessoa{
     
     private String nota;    
     
-    @OneToMany
+    @OneToMany(mappedBy = "revisor")
     private List<Publicacao> publicacoes;
 
     public Revisor() {
@@ -30,7 +30,7 @@ public class Revisor extends Pessoa implements Serializable{
     public Revisor(String nota, List<Publicacao> publicacoes) {
         this.nota = nota;
         this.publicacoes = publicacoes;
-    }
+    }   
 
     public Revisor(String nota, List<Publicacao> publicacoes, int id, String nome, Date dataNasciemntp) {
         super(id, nome, dataNasciemntp);
@@ -53,6 +53,35 @@ public class Revisor extends Pessoa implements Serializable{
     public void setPublicacoes(List<Publicacao> publicacoes) {
         this.publicacoes = publicacoes;
     }
+    
+
+//    public Revisor(String nota, List<Publicacao> publicacoes) {
+//        this.nota = nota;
+//        this.publicacoes = publicacoes;
+//    }
+//
+//    public Revisor(String nota, List<Publicacao> publicacoes, int id, String nome, Date dataNasciemntp) {
+//        super(id, nome, dataNasciemntp);
+//        this.nota = nota;
+//        this.publicacoes = publicacoes;
+//    }
+//
+//    public String getNota() {
+//        return nota;
+//    }
+//
+//    public void setNota(String nota) {
+//        this.nota = nota;
+//    }
+//
+//    public List<Publicacao> getPublicacoes() {
+//        return publicacoes;
+//    }
+//
+//    public void setPublicacoes(List<Publicacao> publicacoes) {
+//        this.publicacoes = publicacoes;
+//    }
+    
     
     
     

@@ -5,8 +5,11 @@
  */
 package main;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -22,9 +25,33 @@ public class App {
                 .createEntityManagerFactory("atividade2")
                 .createEntityManager();
 
-       new povoarBanco(em).dadosIniciais();
+        new povoarBanco(em).dadosIniciais();
 
+//        letraB(em);
+        letraC(em);
 
     }
+
+//  b. O título da publicação e o nome do revisor que tenham alguma publicação na área
+//  de indústria.
+    private static void letraB(EntityManager em) {
+        String jpql = "SELECT p.titulo, r.nome FROM Revisor r, IN (r.publicacoes) p,IN(p.areas) a WHERE a.nome like 'Indústria' ";
+
+        Query query = em.createQuery(jpql);
+        List<Object[]> lista = query.getResultList();
+
+        for (Object[] object : lista) {
+            System.out.println("Publicação: " + object[0]);
+            System.out.println("Revisor: " + object[1]);
+        }
+    }
     
+//  c. O nome dos Revisores que possuem alguma publicação começando com Java.
+    private static void letraC(EntityManager em) {
+
+        String jpql = "SELECT r.nome FROM Revisor r, IN(r.publicacoes) p WHERE p.titulo LIKE 'Java%'";
+        TypedQuery<String> query = em.createQuery(jpql, String.class);
+        
+        query.getResultList().forEach(System.out::println);
+    }
 }

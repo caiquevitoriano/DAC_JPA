@@ -7,6 +7,7 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -22,11 +23,13 @@ import javax.persistence.TemporalType;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Pessoa implements Serializable{
+   
     @Id
     private int id;
     private String nome;
     @Temporal(TemporalType.DATE)
     private Date  dataNasciemntp;
+    
 
     public Pessoa() {
     }
@@ -60,7 +63,8 @@ public class Pessoa implements Serializable{
     public void setDataNasciemntp(Date dataNasciemntp) {
         this.dataNasciemntp = dataNasciemntp;
     }
-    
+
+
     
     
             
