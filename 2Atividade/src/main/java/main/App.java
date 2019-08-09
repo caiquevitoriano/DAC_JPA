@@ -27,9 +27,29 @@ public class App {
 
         new povoarBanco(em).dadosIniciais();
 
+//        letraA(em);
 //        letraB(em);
 //        letraC(em);
-        letraD(em);
+//        letraD(em);
+
+    }
+
+//    a. O nome do escritor, o título da publicação e o nome da área em que o esctrito tem o
+//    atributo id igual a 3.
+    private static void letraA(EntityManager em) {
+        String jpql = "SELECT e.nome, p.titulo, a.nome FROM Escritor e, "
+                + "IN(e.publicacoes) p, IN(p.areas) a WHERE e.id = 3";
+
+
+
+        Query query = em.createQuery(jpql);
+        List<Object[]> lista = query.getResultList();
+
+        for (Object[] object : lista) {
+            System.out.println("Escritor: " + object[0]);
+            System.out.println("Pubçicação: " + object[1]);
+            System.out.println("Area: " + object[2]);
+        }
 
     }
 
@@ -44,6 +64,7 @@ public class App {
         for (Object[] object : lista) {
             System.out.println("Publicação: " + object[0]);
             System.out.println("Revisor: " + object[1]);
+            System.out.println("------------------");
         }
     }
 
@@ -56,15 +77,18 @@ public class App {
         query.getResultList().forEach(System.out::println);
     }
 
+//  d. O nome e a quantidade de Publicações escritas por Escritores com mais que três
+//  prêmios.
     private static void letraD(EntityManager em) {
         String jpql = "SELECT e.nome, count(p) FROM Escritor e, IN(e.publicacoes) p WHERE e.premios > 3 GROUP BY e.nome";
 
         Query query = em.createQuery(jpql);
         List<Object[]> lista = query.getResultList();
-        
+
         for (Object[] object : lista) {
-            System.out.println("Escritor: " + object[0] + " -- Quantidade de Publicações: " + object[1]);
-           
+            System.out.println("Escritor: " + object[0] + "Quantidade de Publicações: " + object[1]);
+            System.out.println("------------------");
+
         }
 
     }
