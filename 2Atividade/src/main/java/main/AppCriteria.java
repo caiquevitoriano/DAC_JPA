@@ -37,34 +37,48 @@ public class AppCriteria {
 
         new povoarBanco(em).dadosIniciais();
 
-//        letraA(em);
+        letraA(em);
 //        letraB(em);
 //        letraC(em);
-        letraD(em);
+//        letraD(em);
 
     }
 
 //    a. O nome do escritor, o título da publicação e o nome da área em que o esctrito tem o
 //    atributo id igual a 3.
     private static void letraA(EntityManager em) {
-        String jpql = "SELECT e.nome, p.titulo, a.nome FROM Escritor e, "
-                + "IN(e.publicacoes) p, IN(p.areas) a WHERE e.id = 3";
+//        String jpql = "SELECT e.nome, p.titulo, a.nome FROM Escritor e, "
+//                + "IN(e.publicacoes) p, IN(p.areas) a WHERE e.id = 3";
 
-        Query query = em.createQuery(jpql);
-        List<Object[]> lista = query.getResultList();
 
-        for (Object[] object : lista) {
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
+        
+        Root<Escritor> root = criteria.from(Escritor.class);
+        Join<Escritor,Publicacao> join = root.join("publicacoes");
+        Join<Publicacao,Area> join1 = join.join("areas");
+
+        Predicate predicate = builder.equal(root.get("id"), 3);
+        criteria.where(predicate).multiselect(root.get("nome"), join.get("titulo"),
+                join1.get("nome"));
+        
+        List<Object[]> resultList = em.createQuery(criteria).getResultList();
+        
+        for (Object[] object : resultList) {
             System.out.println("Escritor: " + object[0]);
             System.out.println("Pubçicação: " + object[1]);
             System.out.println("Area: " + object[2]);
         }
+        
+
 
     }
 
 //  b. O título da publicação e o nome do revisor que tenham alguma publicação na área
 //  de indústria.
     private static void letraB(EntityManager em) {
-        // String jpql = "SELECT p.titulo, r.nome FROM Revisor r, IN (r.publicacoes) p,IN(p.areas) a WHERE a.nome like 'Indústria' ";
+//  String jpql = "SELECT p.titulo, r.nome FROM Revisor r, IN (r.publicacoes) p,IN(p.areas) a WHERE a.nome like 'Indústria' ";
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
